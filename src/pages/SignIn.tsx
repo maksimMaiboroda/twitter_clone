@@ -1,9 +1,16 @@
-import React                              from 'react'
-import { Button, makeStyles, Typography } from '@material-ui/core'
-import TwitterIcon                        from '@material-ui/icons/Twitter';
-import SearchIcon                         from '@material-ui/icons/Search';
-import PeopleOutlineIcon                  from '@material-ui/icons/PeopleOutline';
-import MessageIcon                        from '@material-ui/icons/ModeCommentOutlined';
+import React, {useState} from 'react'
+import { 
+    Button, 
+    makeStyles, 
+    Typography
+}                        from '@material-ui/core'
+import TwitterIcon       from '@material-ui/icons/Twitter';
+import SearchIcon        from '@material-ui/icons/Search';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import MessageIcon       from '@material-ui/icons/ModeCommentOutlined';
+import Modal             from '../components/Modal/Modal';
+import LoginForm         from '../Forms/LoginForm/LoginForm'
+import RegistrationForm  from '../Forms/RegistrationForm/RegistrationForm'
 
 
 const useStyles = makeStyles((theme)=>({
@@ -43,7 +50,7 @@ const useStyles = makeStyles((theme)=>({
         }
     },
     blueSideListInfoItem: {
-        marginBottom: 40,
+        marginBottom : 40,
     },
     blueSideListInfoIcons: {
         fontSize    : 32,
@@ -56,10 +63,10 @@ const useStyles = makeStyles((theme)=>({
         flex           : '0 0 50%'
     },
     loginSideTwitterIcon: {
-        fontSize: 45
+        fontSize : 45
     },
     loginSideWrapper: {
-        width: 380
+        width : 380
     },
     loginSideTitle: {
         fontWeight   : 700,
@@ -68,12 +75,36 @@ const useStyles = makeStyles((theme)=>({
         marginTop    : 20
     },
     btn: {
-        marginTop: 20
+        marginTop : 20
+    },
+    closeIcon: {
+        fontSize : 26
+    },
+    loginSideField: {
+        marginBottom: 18
+    },
+    buttonLogin: {
+        marginBottom: 10
     }
 }))
 
 function SignIn() {
-    const classes = useStyles();
+    const classes                           = useStyles();
+    const [visibleModal, setVisibleModal] = useState<'signIn' | 'signUp'>();
+    
+
+    const handleOpenSignIn = (): void => {
+        setVisibleModal('signIn')
+    }
+
+    const handleOpenSignUp = (): void => {
+        setVisibleModal('signUp')
+    }
+
+    const handleClose = () => {
+        setVisibleModal(undefined)
+    }
+
      
     return (
         <div className = {classes.wrapper}>
@@ -105,13 +136,21 @@ function SignIn() {
                 <TwitterIcon color = 'primary' className = {classes.loginSideTwitterIcon}/>
                 <Typography variant = 'h4' className = {classes.loginSideTitle}>Узнайте, что происходит в мире прямо сейчас</Typography>
                 <Typography><b>Присоединяйтесь к Твиттеру прямо сейчас!</b></Typography>
-                <Button className = {classes.btn} variant = 'contained' color = 'primary' fullWidth>
+                <Button onClick = {handleOpenSignUp} className = {classes.btn} variant = 'contained' color = 'primary' fullWidth>
                     Зарегистрироватся
                 </Button>
-                <Button className = {classes.btn} variant = 'outlined' color = 'primary' fullWidth>
+                <Button onClick = {handleOpenSignIn} className = {classes.btn} variant = 'outlined' color = 'primary' fullWidth>
                     Войти
                 </Button>
                 </div>
+
+                <Modal title = 'Войти в Твиттер' visible = {visibleModal === 'signIn'} onClose = {handleClose}>
+                    <LoginForm onClose = {handleClose}/>
+                </Modal>
+
+                <Modal title = 'Создайте учетную запись' visible = {visibleModal === 'signUp'} onClose = {handleClose}>
+                    <RegistrationForm onClose = {handleClose}/>
+                </Modal>
             </section> 
         </div>
     )
