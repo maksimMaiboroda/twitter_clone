@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme)=>({
         left      : '50%',
         top       : '50%',
         transform : 'translate(-50%, -50%)',
-        width     : '350%',
-        height    : '350%'
+        width     : '260%',
+        height    : '260%'
     },
     blueSideListInfo: {
         position  : 'relative',
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme)=>({
     }
 }))
 
-function SignIn() {
+const SignIn: React.FC = (): React.ReactElement => {
     const classes                           = useStyles();
     const [visibleModal, setVisibleModal] = useState<'signIn' | 'signUp'>();
     
